@@ -55,7 +55,7 @@ RUN set -x \
         --keyserver keys.gnupg.net \
         --recv-keys 434975BD900CCBE4F7EE1B1ED208507CA14F4FCA \
     && apt-get update \
-    && apt-get install -y $buildDeps $requiredAptPackages --no-install-recommends \
+    && apt-get install -y $buildDeps $requiredAptPackages vim --no-install-recommends \
     && dpkg-reconfigure locales && \
         locale-gen C.UTF-8 \
     && /usr/sbin/update-locale LANG=C.UTF-8 \

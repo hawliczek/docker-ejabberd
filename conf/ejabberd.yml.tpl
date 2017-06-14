@@ -402,29 +402,29 @@ modules:
 #org#  "{{ xmpp_domain }}":
 #org#    domain_certfile: "/opt/ejabberd/ssl/{{ xmpp_domain }}.pem"
 #org#{%- endfor %}
-
+#jhh#
 host_config:
 {%- for xmpp_domain in env['XMPP_DOMAIN'].split() %}
-  "{{ xmpp_domain }}":
-    domain_certfile: "/opt/ejabberd/ssl/{{ xmpp_domain }}.pem"
-    auth_method:
-  {%- for auth_method in env.get('EJABBERD_AUTH_METHOD', 'internal').split() %}
-    - {{ auth_method }}
+   "{{ xmpp_domain }}":
+      domain_certfile: "/opt/ejabberd/ssl/{{ xmpp_domain }}.pem"
+      auth_method:
+     {%- for auth_method in env.get('EJABBERD_AUTH_METHOD', 'internal').split() %}
+      - {{ auth_method }}
 
-{%- endfor %}
-    ldap_servers: {%- for ldap_server in env.get('EJABBERD_LDAP_SERVERS', 'internal').split() %}
-    - "{{ ldap_server }}"
+ {%- endfor %}
+      ldap_servers: {%- for ldap_server in env.get('EJABBERD_LDAP_SERVERS', 'internal').split() %}
+      - "{{ ldap_server }}"
    {%- endfor %}
-    ldap_encrypt: {{ env.get('EJABBERD_LDAP_ENCRYPT', 'none') }}
-    ldap_tls_verify: {{ env.get('EJABBERD_LDAP_TLS_VERIFY', 'false') }}
-    ldap_tls_depth: {{ env.get('EJABBERD_LDAP_TLS_DEPTH', 1) }}
-    ldap_deref_aliases: {{ env.get('EJABBERD_LDAP_DEREF_ALIASES', 'never') }}
-{% if env.get('EJABBERD_LDAP_BASE_DOMAIN', "false") != "false" %}    {% for base_domain in env.get('EJABBERD_LDAP_BASE_DOMAIN').split() %}  {%- if  xmpp_domain == base_domain.split(':')[0]  %}ldap_base: "{{- base_domain.split(':')[1]}}" {% endif %} {%- endfor %}  {%- endif %}
-{%- if env.get('EJABBERD_LDAP_UIDS_DOMAIN', "false") != "false" %}
-    {% for uids_domain in env.get('EJABBERD_LDAP_UIDS_DOMAIN').split() %}  {%- if  xmpp_domain == uids_domain.split(':')[0]  %}ldap_uids:
-      - "{{- uids_domain.split(':')[1]}}:{{- uids_domain.split(':')[2]}}" {% endif %} {%- endfor %} 
- {%- endif %}
-{%- endfor %}
+      ldap_encrypt: {{ env.get('EJABBERD_LDAP_ENCRYPT', 'none') }}
+      ldap_tls_verify: {{ env.get('EJABBERD_LDAP_TLS_VERIFY', 'false') }}
+      ldap_tls_depth: {{ env.get('EJABBERD_LDAP_TLS_DEPTH', 1) }}
+      ldap_deref_aliases: {{ env.get('EJABBERD_LDAP_DEREF_ALIASES', 'never') }}
+ {% if env.get('EJABBERD_LDAP_BASE_DOMAIN', "false") != "false" %}    {% for base_domain in env.get('EJABBERD_LDAP_BASE_DOMAIN').split() %}  {%- if  xmpp_domain == base_domain.split(':')[0]  %} ldap_base: "{{- base_domain.split(':')[1]}}" {% endif %} {%- endfor %}  {%- endif %}
+ {%- if env.get('EJABBERD_LDAP_UIDS_DOMAIN', "false") != "false" %}
+     {% for uids_domain in env.get('EJABBERD_LDAP_UIDS_DOMAIN').split() %}  {%- if  xmpp_domain == uids_domain.split(':')[0]  %} ldap_uids:
+      - "{{- uids_domain.split(':')[1]}}": "{{- uids_domain.split(':')[2]}}" {% endif %} {%- endfor %} 
+  {%- endif %}
+ {%- endfor %}
 
 
 {%- if env['EJABBERD_CONFIGURE_ODBC'] == "true" %}
